@@ -11,12 +11,12 @@ After selecting a project in the application, you need to create languages withi
 ![Screenshot_1](/Art/ss_lsls_1_5_1_1.png)
 <br>
 <h2>Features</h2>
-<li>
-  <ul>🌐 Adding newly translated content to multiple languages</ul>
-  <ul>🔄 Simultaneously modifying translations in multiple languages</ul>
-  <ul>📄 Exporting JSON output</ul>
-  <ul>🛠️ Ability to perform custom tasks with extension support</ul>
-  <ul>📂 Interacting with operations through JSON files</ul>
-  <ul>🖥️ Viewing multiple projects within the application</ul>
-  <ul>and more...</ul>
-</li>
+<ul>
+  <li>🌐 Adding newly translated content to multiple languages</li>
+  <li>🔄 Simultaneously modifying translations in multiple languages</li>
+  <li>📄 Exporting JSON output</li>
+  <li>🛠️ Ability to perform custom tasks with extension support</li>
+  <li>📂 Interacting with operations through JSON files</li>
+  <li>🖥️ Viewing multiple projects within the application</li>
+  <li>and more...</li>
+</ul>
