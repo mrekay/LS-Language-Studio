@@ -280,6 +280,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="languages.ico" />
+    <None Include="Resources\drop.png" />
     <None Include="Resources\option.png" />
     <None Include="Resources\copy.png" />
     <None Include="Resources\upload.png" />

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -21,7 +22,7 @@ namespace LongShiftLanguage.Classes
 			{
 				database.AffectedRowsQuery(
 				string.Format("UPDATE tbl_languages SET name='{1}', isDefault='{2}', JSON='{3}' WHERE id='{4}' and projID='{0}'",
-				projID, name, isDefault, JSON,id), databaseInfo.schemaname);
+				projID, name, isDefault, SecurityElement.Escape(JSON),id), databaseInfo.schemaname);
 			}
 		}
 

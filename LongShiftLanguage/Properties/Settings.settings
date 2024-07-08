@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LongShiftLanguage.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="unity_output_location" Type="System.String" Scope="User">
+    <Setting Name="default_export_location" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

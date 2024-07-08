@@ -12,6 +12,8 @@ public static class NotificationManager
 	
 	public static void CreateNotification(string content,string title = "",Icon icon = null,int seconds = 3000)
 	{
+		if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(title)) return;
+
 		if (icon == null) icon = SystemIcons.Information;
 		notifyIcon.BalloonTipTitle = title;
 		notifyIcon.BalloonTipText = content;

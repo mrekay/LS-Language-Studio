@@ -278,15 +278,16 @@ namespace LongShiftLanguage.Forms
         #endregion
 
         #region buttonEvent
-        private void exportUnity_Click(object sender, EventArgs e)
+
+        private void btn_export_to_loc_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Properties.Settings.Default.unity_output_location))
+            if (string.IsNullOrEmpty(Properties.Settings.Default.default_export_location))
             {
                 ExportJson();
             }
             else
             {
-                var loc = Properties.Settings.Default.unity_output_location + "\\" + (dgv_keywords.Rows[0].Cells[2].Value) + ".json";
+                var loc = Properties.Settings.Default.default_export_location + "\\" + (dgv_keywords.Rows[0].Cells[2].Value) + ".json";
                 File.WriteAllText(loc, ExportJSONText());
             }
         }
@@ -375,10 +376,5 @@ namespace LongShiftLanguage.Forms
 
 
 
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

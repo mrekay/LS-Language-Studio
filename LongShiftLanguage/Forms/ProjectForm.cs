@@ -23,6 +23,8 @@ namespace LongShiftLanguage.Forms
         bool exit;
 
         public static Project GetProject() => instance.SelectedProject;
+        public static LanguageEditor SelectedEditorTab() => (LanguageEditor)instance.LanguageTabControl.SelectedTab.Controls[0];
+        public static Language SelectedLanguage() => SelectedEditorTab().GetEditorLanguage();
 
         public ProjectForm()
         {
@@ -177,7 +179,7 @@ namespace LongShiftLanguage.Forms
                 string selectedFolder = folderBrowserDialog.SelectedPath;
 
                 if (string.IsNullOrEmpty(selectedFolder)) { MessageBox.Show("Kayıt noktası boş olamaz", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-                Properties.Settings.Default.unity_output_location = selectedFolder;
+                Properties.Settings.Default.default_export_location = selectedFolder;
                 Properties.Settings.Default.Save();
                 MessageBox.Show("Veri kayıt noktası kaydedildi!");
             }
