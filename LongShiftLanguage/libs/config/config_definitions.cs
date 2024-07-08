@@ -15,15 +15,16 @@ public static class config_definitions
 		Server = "",
 		schemaname = "",
 		username = "",
-		password = "",
+		password = "*",
 	};
 
 	public static string
 		SaltText = "LongShift Language Studio",
 		ApplicationName = "LongShift Language Studio",
-		ApplicationVersion = "1.4.0",
+		ApplicationVersion = "1.5.0",
 		DEFAULT_ENCRYPTION_PASSWORD = "LongShiftLanguage.",
-		AppID = "2";
+		AppID = "2",
+		ExtensionPath = "/lib/Extensions";
 
 	public static Color APP_THEME = Color.DodgerBlue;
 }

@@ -1,5 +1,6 @@
 ﻿using LongShiftLanguage.Classes;
 using LongShiftLanguage.Classes.Abstract;
+using LongShiftLanguage.Classes.Components;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -58,30 +59,26 @@ namespace LongShiftLanguage.Forms
 			panel_projects.Controls.Clear();
 			projects = projectsManager.TranslationAppsSelectList();
 
-			var gameKey = 0;
-			foreach (var game in projects)
+			var projKey = 0;
+			foreach (var project in projects)
 			{
-				var newPB = CreateprojectselectPB(gameKey.ToString());
+				var newPB = CreateprojectselectPB(projKey.ToString(), project.name);
 				panel_projects.Controls.Add(newPB);
 				newPB.Location = new Point(((panel_projects.Size.Width - newPB.Size.Width)/2), 20 +(newPB.Height*(panel_projects.Controls.Count-1) + (8 * (panel_projects.Controls.Count - 1))) );
-				gameKey++;
+                projKey++;
 			}
 
 		}
 
-		public PictureBox CreateprojectselectPB(string gameID)
+		public AppButton CreateprojectselectPB(string appID,string appName)
 		{
-			var selectGamePB = new PictureBox();
-			selectGamePB.Size = new Size(400,160);
-			selectGamePB.BackgroundImage = ConvertBase64ToImage(projects[Convert.ToInt32(gameID)].photo);
-			selectGamePB.BackgroundImageLayout = ImageLayout.Zoom;
-			selectGamePB.Cursor = Cursors.Hand;
-			selectGamePB.Click += SelectGamePB_Click;
-			selectGamePB.Tag = gameID;
-			return selectGamePB;
+			var selectProjectPB = new AppButton(ConvertBase64ToImage(projects[Convert.ToInt32(appID)].photo), appName,appID);
+
+            selectProjectPB.Click += SelectProjPB_Click;
+			return selectProjectPB;
 		}
 
-		private void SelectGamePB_Click(object sender, EventArgs e)
+		private void SelectProjPB_Click(object sender, EventArgs e)
 		{
 			_selectedProject =  projects[Convert.ToInt32((sender as PictureBox).Tag)];
 			this.Close();
@@ -92,7 +89,7 @@ namespace LongShiftLanguage.Forms
 			return _selectedProject;
 		}
 
-		private void GameProjectSelector_FormClosed(object sender, FormClosedEventArgs e)
+		private void ProjectSelector_FormClosed(object sender, FormClosedEventArgs e)
 		{
 
 		}

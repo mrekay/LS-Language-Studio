@@ -1,4 +1,5 @@
 ﻿using LongShiftLanguage.Classes.Abstract;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,13 @@ namespace LongShiftLanguage.Classes
 				string.Format("DELETE FROM tbl_languages WHERE id ='{0}'", id), databaseInfo.schemaname) > 0;
 		}
 
-		
-	}
+
+		public Dictionary<string,string> ConvertToDict()
+		{
+			if (string.IsNullOrEmpty(JSON)) return null;
+            return JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(JSON)[0]; ;
+
+        }
+
+    }
 }

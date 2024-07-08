@@ -16,13 +16,18 @@ public class LSForm : Form
 
 	public LSForm()
 	{
-		this.DoubleClick += _DoubleClick;
-		this.MouseDown += _MouseDown;
-		this.MouseMove += _MouseMove;
-		this.MouseUp += _MouseUp;
+		Init();
+    }
 
-		this.Shown += LSForm_Shown;
-	}
+	private void Init()
+	{
+        this.DoubleClick += _DoubleClick;
+        this.MouseDown += _MouseDown;
+        this.MouseMove += _MouseMove;
+        this.MouseUp += _MouseUp;
+
+        this.Shown += LSForm_Shown;
+    }
 
 	private void LSForm_Shown(object sender, EventArgs e)
 	{

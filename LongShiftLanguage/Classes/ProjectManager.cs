@@ -19,7 +19,7 @@ namespace LongShiftLanguage.Classes
 			parent = _parent;
 		}
 
-		public List<Project> gamesList = new List<Project>();
+		public List<Project> projectList = new List<Project>();
 		public List<Project> TranslationAppsSelectList()
 		{
 			var returnVal = new List<Project>();

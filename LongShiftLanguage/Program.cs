@@ -1,4 +1,5 @@
-﻿using LongShiftLanguage.Forms;
+﻿using LongShiftLanguage.Classes;
+using LongShiftLanguage.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +21,8 @@ namespace LongShiftLanguage
 			Application.SetCompatibleTextRenderingDefault(false);
 
 
-			var proj = new ProjectForm();
+            var extentionManager = new ExtentionManager();
+            var proj = new ProjectForm();
 			if (!proj.IsDisposed)
 				Application.Run(proj);
 			else return;
