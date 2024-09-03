@@ -89,7 +89,7 @@ namespace LongShiftLanguage.Classes
 				.Select(x => x?.ToObject<Dictionary<string, string>>())
 				.ToList();
 			}
-			catch (Exception ex) { CloseConnection();  MessageBox.Show(ex.ToString()); }
+			catch (Exception ex) { MessageBox.Show(ex.ToString()); CloseConnection();   }
 
 			return returnVal;
 		}

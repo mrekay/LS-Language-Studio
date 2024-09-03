@@ -42,6 +42,7 @@
             this.çıktıKonumunuBelirleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.last_process_label = new System.Windows.Forms.ToolStripLabel();
+            this.tümProjeyiÇıktıAlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -69,10 +70,11 @@
             this.projeyiYenidenYükleToolStripMenuItem,
             this.projeyiKaydetToolStripMenuItem,
             this.toolStripSeparator2,
-            this.çıktıKonumunuBelirleToolStripMenuItem});
+            this.çıktıKonumunuBelirleToolStripMenuItem,
+            this.tümProjeyiÇıktıAlToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(271, 148);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(271, 192);
             // 
             // yeniDilOluşturToolStripMenuItem
             // 
@@ -152,8 +154,16 @@
             // last_process_label
             // 
             this.last_process_label.Name = "last_process_label";
-            this.last_process_label.Size = new System.Drawing.Size(83, 22);
-            this.last_process_label.Text = "Proje Yüklendi";
+            this.last_process_label.Size = new System.Drawing.Size(0, 22);
+            // 
+            // tümProjeyiÇıktıAlToolStripMenuItem
+            // 
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Name = "tümProjeyiÇıktıAlToolStripMenuItem";
+            this.tümProjeyiÇıktıAlToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Text = "Tüm Projeyi Çıktı Al";
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Click += new System.EventHandler(this.tümProjeyiÇıktıAlToolStripMenuItem_Click);
             // 
             // ProjectForm
             // 
@@ -189,5 +199,6 @@
 		private System.Windows.Forms.ToolStripMenuItem projeyiKaydetToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripLabel last_process_label;
+        private System.Windows.Forms.ToolStripMenuItem tümProjeyiÇıktıAlToolStripMenuItem;
     }
 }

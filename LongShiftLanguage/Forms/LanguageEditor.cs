@@ -2,6 +2,7 @@
 using LongShiftLanguage.Classes;
 using LongShiftLanguage.Classes.Abstract;
 using LongShiftLanguage.Classes.Components;
+using LongShiftLanguage.libs.multilanguage_support;
 using MySqlX.XDevAPI.Relational;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -31,7 +32,7 @@ namespace LongShiftLanguage.Forms
         public LanguageEditor(DatabaseConnection _db, Classes.Project _project, ProjectForm _proj, Language loadingLang)
         {
             InitializeComponent();
-
+            LoadLanguageTexts();
             database = _db;
             project = _project;
             projectFrm = _proj;
@@ -50,8 +51,26 @@ namespace LongShiftLanguage.Forms
 
             /* extention resources*/
             InitializeExtentionResources();
+            ProjectForm.SetLastProcessLabel(LangCtrl.GetText("PROJECT_LOADED"));
 
 
+        }
+
+        private void LoadLanguageTexts()
+        {
+            MainTooltip.SetToolTip(btn_add, LangCtrl.GetText("NEW_ROW"));
+            MainTooltip.SetToolTip(btn_delete, LangCtrl.GetText("DELETE_SELECTED_ROWS"));
+            MainTooltip.SetToolTip(btn_reload, LangCtrl.GetText("RELOAD"));
+            MainTooltip.SetToolTip(btn_save, LangCtrl.GetText("SAVE"));
+            MainTooltip.SetToolTip(btn_importJSON, LangCtrl.GetText("REMOVE_ALL_DATAS_AND_LOAD_FROM_FILE"));
+            MainTooltip.SetToolTip(btn_merge, LangCtrl.GetText("COMPARE_AND_LOAD_FROM_FILE"));
+            MainTooltip.SetToolTip(btn_exportjson, LangCtrl.GetText("EXPORT"));
+            MainTooltip.SetToolTip(btn_copyJSON, LangCtrl.GetText("COPY_AS_JSON"));
+            MainTooltip.SetToolTip(btn_replace_all_languages, LangCtrl.GetText("REPLACE_IN_ALL_LANGUAGES"));
+            MainTooltip.SetToolTip(btn_export_to_loc, LangCtrl.GetText("DROP_DESIGNATED_OUTPUT_LOCATION"));
+            MainTooltip.SetToolTip(txt_search, LangCtrl.GetText("SEARCH"));
+            dgv_keywords.Columns[1].HeaderText  = LangCtrl.GetText("NAME");
+            dgv_keywords.Columns[2].HeaderText  = LangCtrl.GetText("VALUE");
         }
 
         private void InitializeExtentionResources()
@@ -125,7 +144,7 @@ namespace LongShiftLanguage.Forms
                 string filePath = saveFileDialog.FileName;
                 File.WriteAllText(filePath, ExportJSONText());
 
-                MessageBox.Show("Veriler JSON dosyasına başarıyla aktarıldı!");
+                ProjectForm.SetLastProcessLabel(LangCtrl.GetText("JSON_EXPORT_SUCCESS"));
             }
         }
         void ImportJSON(bool merge = false)
@@ -200,6 +219,19 @@ namespace LongShiftLanguage.Forms
         public void setKeywordItem(string id, string value)
         {
             dgv_keywords.Rows[Convert.ToInt32(id)].Cells["keyvalue"].Value = value;
+        }
+        internal void exportAlone()
+        {
+            try
+            {
+                var loc = Properties.Settings.Default.default_export_location + "\\" + loadedLanguage.name + ".json";
+                File.WriteAllText(loc, ExportJSONText());
+                ProjectForm.SetLastProcessLabel(string.Format(LangCtrl.GetText("FILE_SAVED_TO"), loc));
+            }
+            catch (Exception ex)
+            {
+                ProjectForm.SetLastProcessLabel(LangCtrl.GetText("OEPRATION_FAILED"));
+            }
         }
         internal void saveAlone()
         {
@@ -287,10 +319,11 @@ namespace LongShiftLanguage.Forms
             }
             else
             {
-                var loc = Properties.Settings.Default.default_export_location + "\\" + (dgv_keywords.Rows[0].Cells[2].Value) + ".json";
-                File.WriteAllText(loc, ExportJSONText());
+                exportAlone();
             }
         }
+
+
         private void txt_search_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)

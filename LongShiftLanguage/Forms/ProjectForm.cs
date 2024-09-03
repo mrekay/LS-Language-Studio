@@ -8,6 +8,7 @@ using static function_special;
 using System.Diagnostics;
 using LongShiftLanguage.Classes.Abstract;
 using System.Management.Instrumentation;
+using LongShiftLanguage.libs.multilanguage_support;
 
 namespace LongShiftLanguage.Forms
 {
@@ -34,7 +35,7 @@ namespace LongShiftLanguage.Forms
             var versionChecker = new VersionChecker(database);
             if (!versionChecker.CheckVersion())
             {
-                var dialogResult = MessageBox.Show(string.Format("Yeni Sürüm Yayınlamış ({0}) Devam etmek için indiriniz.", versionChecker.version), "Yeni Sürüm Yayınlamış", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                var dialogResult = MessageBox.Show(string.Format(LangCtrl.GetText("NEW_VERSION_RELEASED"), versionChecker.version), LangCtrl.GetText("NEW_VERSION"), MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (dialogResult == DialogResult.Yes)
                 {
                     Process.Start(versionChecker.url);
@@ -47,6 +48,7 @@ namespace LongShiftLanguage.Forms
             }
 
             InitializeComponent();
+            LoadLanguageTexts();
             (new SplashScreen()).ShowDialog();
             resetLPLabel.Tick += ResetLPLabel_Tick;
 
@@ -73,6 +75,16 @@ namespace LongShiftLanguage.Forms
             CreateTabs();
             Shown += FormReady;
 
+        }
+
+        private void LoadLanguageTexts()
+        {
+            yeniDilOluşturToolStripMenuItem.Text = LangCtrl.GetText("CREATE_NEW_LANGUAGE");
+            başkaProjeAçToolStripMenuItem.Text = LangCtrl.GetText("OPEN_OTHER_PROJECT");
+            projeyiYenidenYükleToolStripMenuItem.Text = LangCtrl.GetText("RELOAD_PROJECT");
+            projeyiKaydetToolStripMenuItem.Text = LangCtrl.GetText("SAVE_PROJECT");
+            seçiliDiliSilToolStripMenuItem.Text = LangCtrl.GetText("DELETE_SELECTED_LANGUAGE");
+            çıktıKonumunuBelirleToolStripMenuItem.Text = LangCtrl.GetText("SET_OUTPUT_LOCATION");
         }
 
         private void InitializeExtentionResources()
@@ -114,7 +126,7 @@ namespace LongShiftLanguage.Forms
             foreach (var item in SelectedProject.languageManager.languageList)
             {
                 var leditor = new LanguageEditor(database, SelectedProject, this, item);
-                var ltab = new TabPage(item.name + (item.isDefault == "1" ? " - Varsayılan" : ""));
+                var ltab = new TabPage(item.name + (item.isDefault == "1" ? " - " + LangCtrl.GetText("DEFAULT") : ""));
                 leditor.TopLevel = false;
                 leditor.Dock = DockStyle.Fill;
                 leditor.Show();
@@ -178,17 +190,17 @@ namespace LongShiftLanguage.Forms
                 // Seçilen klasörün yolu alınır
                 string selectedFolder = folderBrowserDialog.SelectedPath;
 
-                if (string.IsNullOrEmpty(selectedFolder)) { MessageBox.Show("Kayıt noktası boş olamaz", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+                if (string.IsNullOrEmpty(selectedFolder)) { MessageBox.Show(LangCtrl.GetText("SAVE_POINT_CANNOT_BE_EMPTY"), LangCtrl.GetText("ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
                 Properties.Settings.Default.default_export_location = selectedFolder;
                 Properties.Settings.Default.Save();
-                MessageBox.Show("Veri kayıt noktası kaydedildi!");
+                MessageBox.Show(LangCtrl.GetText("DATA_OUTPUT_LOCATION_SAVED"));
             }
         }
 
         private void seçiliDiliSilToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if (MessageBox.Show("Seçili dil silinecektir.", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(LangCtrl.GetText("ARE_YOU_SURE_TO_DELETE_FILE"), LangCtrl.GetText("WARNING"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
 
                 var selectedLanguageEditor = LanguageTabControl.SelectedTab.Controls[0] as LanguageEditor;
@@ -228,7 +240,7 @@ namespace LongShiftLanguage.Forms
                 if (!hasTab)
                 {
                     var leditor = new LanguageEditor(database, SelectedProject, this, item);
-                    var ltab = new TabPage(item.name + (item.isDefault == "1" ? " - Varsayılan" : ""));
+                    var ltab = new TabPage(item.name + (item.isDefault == "1" ? " - " + LangCtrl.GetText("DEFAULT") : ""));
                     leditor.TopLevel = false;
                     leditor.Dock = DockStyle.Fill;
                     leditor.Show();
@@ -258,7 +270,7 @@ namespace LongShiftLanguage.Forms
 
         private void başkaProjeAçToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Başka Proje Açmak İstediğinize Emin Misiniz?\nKaydetmediğiniz Değişiklikler Silinecektir\nSilinen değişiklikler geri alınmaz", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(LangCtrl.GetText("ARE_YOU_SURE_TO_LOAD_OTHER_PROJECT"), LangCtrl.GetText("WARNING"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Application.Restart();
             }
@@ -266,7 +278,7 @@ namespace LongShiftLanguage.Forms
 
         private void projeyiYenidenYükleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Projeyi Yeniden Yüklemek İstediğinize Emin Misiniz?\nKaydetmediğiniz Değişiklikler Silinecektir\nSilinen değişiklikler geri alınmaz", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(LangCtrl.GetText("ARE_YOU_SURE_TO_RELOAD_PROJECT"), LangCtrl.GetText("WARNING"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
 
                 ReloadAll();
@@ -305,16 +317,26 @@ namespace LongShiftLanguage.Forms
         }
 
         Timer resetLPLabel = new Timer() { Interval = 2700 };
-        public static void SetLastProcessLabel(string text)
+        public static void SetLastProcessLabel(string text,bool isPermanted = false)
         {
             instance.resetLPLabel.Stop();
             instance.last_process_label.Text = text;
-            instance.resetLPLabel.Start();
+            if (!isPermanted)instance.resetLPLabel.Start();
         }
         private void ResetLPLabel_Tick(object sender, EventArgs e)
         {
             resetLPLabel.Stop();
-            instance.last_process_label.Text = "Ready";
+            instance.last_process_label.Text = LangCtrl.GetText("READY");
+        }
+
+        private void tümProjeyiÇıktıAlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (TabPage tab in LanguageTabControl.TabPages)
+            {
+                var languageEditor = tab.Controls[0] as LanguageEditor;
+                languageEditor.exportAlone();
+            }
+            ProjectForm.SetLastProcessLabel(string.Format("Tüm Proje {0} Konumuna Aktarıldı",Properties.Settings.Default.default_export_location));
         }
     }
 }

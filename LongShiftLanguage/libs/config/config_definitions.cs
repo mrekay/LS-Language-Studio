@@ -21,7 +21,7 @@ public static class config_definitions
 	public static string
 		SaltText = "LongShift Language Studio",
 		ApplicationName = "LongShift Language Studio",
-		ApplicationVersion = "1.5.1",
+		ApplicationVersion = "1.6",
 		DEFAULT_ENCRYPTION_PASSWORD = "LongShiftLanguage.",
 		AppID = "2",
 		ExtensionPath = "/lib/Extensions";

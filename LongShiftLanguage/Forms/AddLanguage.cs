@@ -1,5 +1,6 @@
 ﻿using LongShiftLanguage.Classes;
 using LongShiftLanguage.Classes.Abstract;
+using LongShiftLanguage.libs.multilanguage_support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,24 +22,30 @@ namespace LongShiftLanguage.Forms
 		public AddLanguage(DatabaseConnection database, Project project)
 		{
 			InitializeComponent();
+            LoadLanguageTexts();
 			this.database = database;
 			this.project = project;	
 		}
 
+        private void LoadLanguageTexts()
+        {
+			label2.Text = LangCtrl.GetText("LANGUAGE");
+			checkBox1.Text = LangCtrl.GetText("DEFAULT_LANGUAGE");
+			btn_continue.Text = LangCtrl.GetText("CONTINUE");
+        }
 
-
-		private void btn_continue_Click(object sender, EventArgs e)
+        private void btn_continue_Click(object sender, EventArgs e)
 		{
 			bool imperativeDefaultLang = false;
 			if (string.IsNullOrEmpty(tb_proj_name.Text))
 			{
-				NotificationManager.CreateNotification("Dil Boş Olamaz", "Uyarı", SystemIcons.Error);
+				NotificationManager.CreateNotification(LangCtrl.GetText("LANG_CANNOT_BE_EMPTY"), LangCtrl.GetText("WARNING"), SystemIcons.Error);
 				return;
 			}
 
 			if (project.languageManager.CheckForDefualtLanguageExists() && checkBox1.Checked)
 			{
-				NotificationManager.CreateNotification("Zaten başka bir dil varsayılan olarak atanmış", "Uyarı", SystemIcons.Error);
+				NotificationManager.CreateNotification(LangCtrl.GetText("ANOTHER_LANG_ALREADY_DEFAULT"), LangCtrl.GetText("WARNING"), SystemIcons.Error);
 				return;
 			}
 			else if (!project.languageManager.CheckForDefualtLanguageExists()) 
@@ -52,12 +59,12 @@ namespace LongShiftLanguage.Forms
 			lang.isDefault = checkBox1.Checked || imperativeDefaultLang ? "1" : "0";
 			if (lang.CreateLanguage())
 			{
-				NotificationManager.CreateNotification("Dil Oluşturuldu","İşlem Başarılı",SystemIcons.Information);
+				NotificationManager.CreateNotification(LangCtrl.GetText("LANG_CREATED"), LangCtrl.GetText("OPERATION_SUCCESSFUL"), SystemIcons.Information);
 				this.Close();
 			}
 			else
 			{
-				NotificationManager.CreateNotification("Dil Oluşturulamadı", "İşlem Başarısız", SystemIcons.Error);
+				NotificationManager.CreateNotification(LangCtrl.GetText("LANG_CREATION_UNSUCCESSFUL"), LangCtrl.GetText("OEPRATION_FAILED"), SystemIcons.Error);
 
 			}
 

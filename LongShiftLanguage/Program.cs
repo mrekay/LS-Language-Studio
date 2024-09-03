@@ -1,5 +1,6 @@
 ﻿using LongShiftLanguage.Classes;
 using LongShiftLanguage.Forms;
+using LongShiftLanguage.libs.multilanguage_support;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,6 +22,7 @@ namespace LongShiftLanguage
 			Application.SetCompatibleTextRenderingDefault(false);
 
 
+			var multiLangSupport = new LanguageController();
             var extentionManager = new ExtentionManager();
             var proj = new ProjectForm();
 			if (!proj.IsDisposed)

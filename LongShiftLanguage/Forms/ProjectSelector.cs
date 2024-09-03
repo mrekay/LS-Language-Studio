@@ -1,6 +1,7 @@
 ﻿using LongShiftLanguage.Classes;
 using LongShiftLanguage.Classes.Abstract;
 using LongShiftLanguage.Classes.Components;
+using LongShiftLanguage.libs.multilanguage_support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,7 +38,9 @@ namespace LongShiftLanguage.Forms
 
 		private void FormReady(object sender, EventArgs e)
 		{
-			CreateCustomCreateButton();
+			CreateCustomSettingsButton();
+
+            CreateCustomCreateButton();
 		}
 
 		void CreateCustomCreateButton()
@@ -47,14 +50,33 @@ namespace LongShiftLanguage.Forms
 			crate_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			crate_btn.FlatAppearance.BorderSize = 0;
 			crate_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			crate_btn.Name = "button1";
+			crate_btn.Name = "btn_create_lang";
 			crate_btn.Size = new System.Drawing.Size(24, 24);
 			crate_btn.Anchor = AnchorStyles.Right;
 			crate_btn.Click += new System.EventHandler(crate_btn_Click);
 			ControlsBox.AddCustomControl(crate_btn);
 		}
+		void CreateCustomSettingsButton()
+		{
+			var crate_btn = new Button();
+			crate_btn.BackgroundImage = global::LongShiftLanguage.Properties.Resources.globe;
+			crate_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			crate_btn.FlatAppearance.BorderSize = 0;
+			crate_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			crate_btn.Name = "btn_settings";
+			crate_btn.Size = new System.Drawing.Size(24, 24);
+			crate_btn.Anchor = AnchorStyles.Right;
+			crate_btn.Click += new System.EventHandler(btn_settings_click);
+			ControlsBox.AddCustomControl(crate_btn);
+		}
 
-		private void InitalizeApps()
+        private void btn_settings_click(object sender, EventArgs e)
+        {
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.ShowDialog();
+        }
+
+        private void InitalizeApps()
 		{
 			panel_projects.Controls.Clear();
 			projects = projectsManager.TranslationAppsSelectList();
@@ -100,5 +122,10 @@ namespace LongShiftLanguage.Forms
 			addProject.ShowDialog();
 			InitalizeApps();
 		}
-	}
+
+        private void ProjectSelector_Load(object sender, EventArgs e)
+        {
+			label1.Text = LangCtrl.GetText("PLEASE_SELECT_PROJECT");
+        }
+    }
 }

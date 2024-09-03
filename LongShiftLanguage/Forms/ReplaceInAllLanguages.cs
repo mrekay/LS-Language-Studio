@@ -1,5 +1,6 @@
 ﻿using LongShiftLanguage.Classes;
 using LongShiftLanguage.Classes.Abstract;
+using LongShiftLanguage.libs.multilanguage_support;
 using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,19 @@ namespace LongShiftLanguage.Forms
 			this.database = database;
 			this.projectForm = projectForm;
 
+            LoadLanguageTexts();
+
 		}
 
-		public void getInAllLanguages(string key)
+        private void LoadLanguageTexts()
+        {
+			dgv_keywords.Columns[2].HeaderText = LangCtrl.GetText("LANGUAGE");
+			dgv_keywords.Columns[3].HeaderText = LangCtrl.GetText("NAME");
+			dgv_keywords.Columns[4].HeaderText = LangCtrl.GetText("VALUE");
+			btn_save.Text = LangCtrl.GetText("CONTINUE");
+        }
+
+        public void getInAllLanguages(string key)
 		{
 
 			int i = 0;

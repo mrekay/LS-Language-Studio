@@ -1,5 +1,6 @@
 ﻿using LongShiftLanguage.Classes;
 using LongShiftLanguage.Classes.Abstract;
+using LongShiftLanguage.libs.multilanguage_support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,10 +21,18 @@ namespace LongShiftLanguage.Forms
 		public AddProject(DatabaseConnection database)
 		{
 			InitializeComponent();
+            LoadLanguageTexts();
 			this.database = database;
 		}
 
-		public string base64Img;
+        private void LoadLanguageTexts()
+        {
+			txt_project_name.Text = LangCtrl.GetText("PROJECT_NAME");
+			txt_project_photo.Text = LangCtrl.GetText("PROJECT_PHOTO");
+			btn_continue.Text = LangCtrl.GetText("CONTINUE");
+        }
+
+        public string base64Img;
 
 		private void btn_loadimage_Click(object sender, EventArgs e)
 		{
@@ -58,7 +67,7 @@ namespace LongShiftLanguage.Forms
 			if (string.IsNullOrEmpty(tb_proj_name.Text))
 			{
 
-				NotificationManager.CreateNotification("Proje Adı Boş Olamaz", "Uyarı", SystemIcons.Error);
+				NotificationManager.CreateNotification(LangCtrl.GetText("PROJECT_NAME_CANNOT_BE_EMPTY"), LangCtrl.GetText("WARNING"), SystemIcons.Error);
 
 				return;
 			}
@@ -68,12 +77,12 @@ namespace LongShiftLanguage.Forms
 			project.photo = base64Img;
 			if (project.CreateProject())
 			{
-				NotificationManager.CreateNotification("Proje Oluşturuldu", "İşlem Başarılı", SystemIcons.Information);
+				NotificationManager.CreateNotification(LangCtrl.GetText("PROJECT_CREATED_SUCCESSFULLY"), LangCtrl.GetText("OPERATION_SUCCESSFUL"), SystemIcons.Information);
 				this.Close();
 			}
 			else
 			{
-				NotificationManager.CreateNotification("Proje Oluşturulamadı", "İşlem Başarısız", SystemIcons.Error);
+				NotificationManager.CreateNotification(LangCtrl.GetText("PROJECT_CREATION_UNSUCCESSFUL"), LangCtrl.GetText("OEPRATION_FAILED"), SystemIcons.Error);
 
 			}
 

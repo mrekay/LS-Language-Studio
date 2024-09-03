@@ -1,4 +1,5 @@
 ﻿using LongShiftLanguage.Classes;
+using LongShiftLanguage.libs.multilanguage_support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,22 +21,28 @@ namespace LongShiftLanguage.Forms
 		public SplashScreen()
 		{
 			InitializeComponent();
+			LoadLanguageTexts();
 
 			label3.Text = "v"+ApplicationVersion;
 			this.Region = functions.CalcRegion(Size,8);
 
 		}
 
-		private void timer1_Tick(object sender, EventArgs e)
+        private void LoadLanguageTexts()
+        {
+			label5.Text = LangCtrl.GetText("LOADING_DATAS");
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
 		{
-			if (label5.Text =="Veriler Getirildi") { 
+			if (label5.Text == LangCtrl.GetText("DATAS_LOADED")) { 
 			timer1.Stop();
 			this.Visible = false;
 			}
 			else
 			{
-				label5.Text = "Veriler Getirildi";
-			}
+                label5.Text = LangCtrl.GetText("DATAS_LOADED");
+            }
 
 		}
 	}
