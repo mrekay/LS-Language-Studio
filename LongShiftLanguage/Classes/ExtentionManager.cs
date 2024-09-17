@@ -1,5 +1,6 @@
 ﻿using LongShiftLanguage.Classes.Components;
 using LongShiftLanguage.Interfaces;
+using LongShiftLanguage.libs.multilanguage_support;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -76,7 +77,7 @@ namespace LongShiftLanguage.Classes
                     }
                     }catch (Exception ex) {
 
-                        NotificationManager.CreateNotification("Some Extentions Won't load", "Error", SystemIcons.Warning);
+                        NotificationManager.CreateNotification(LangCtrl.GetText("SOME_EXTENTIONS_WONT_LOAD"), LangCtrl.GetText("ERROR"), SystemIcons.Warning);
                     
                     }
                 }

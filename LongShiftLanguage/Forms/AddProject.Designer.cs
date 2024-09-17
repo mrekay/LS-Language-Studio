@@ -33,11 +33,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.txt_project_name = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.pb_project_image = new System.Windows.Forms.PictureBox();
+            this.btn_loadimage = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.txt_project_photo = new System.Windows.Forms.Label();
             this.btn_continue = new System.Windows.Forms.Button();
-            this.pb_project_image = new System.Windows.Forms.PictureBox();
-            this.btn_loadimage = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_project_image)).BeginInit();
@@ -100,6 +100,33 @@
             this.panel3.Size = new System.Drawing.Size(467, 230);
             this.panel3.TabIndex = 18;
             // 
+            // pb_project_image
+            // 
+            this.pb_project_image.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_camera_48;
+            this.pb_project_image.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pb_project_image.Location = new System.Drawing.Point(33, 53);
+            this.pb_project_image.Name = "pb_project_image";
+            this.pb_project_image.Size = new System.Drawing.Size(400, 160);
+            this.pb_project_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_project_image.TabIndex = 20;
+            this.pb_project_image.TabStop = false;
+            // 
+            // btn_loadimage
+            // 
+            this.btn_loadimage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_loadimage.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_add_file_48;
+            this.btn_loadimage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_loadimage.FlatAppearance.BorderSize = 0;
+            this.btn_loadimage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_loadimage.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btn_loadimage.ForeColor = System.Drawing.Color.White;
+            this.btn_loadimage.Location = new System.Drawing.Point(125, 13);
+            this.btn_loadimage.Name = "btn_loadimage";
+            this.btn_loadimage.Size = new System.Drawing.Size(24, 24);
+            this.btn_loadimage.TabIndex = 19;
+            this.btn_loadimage.UseVisualStyleBackColor = true;
+            this.btn_loadimage.Click += new System.EventHandler(this.btn_loadimage_Click);
+            // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Orange;
@@ -134,33 +161,6 @@
             this.btn_continue.Text = "Devam Et";
             this.btn_continue.UseVisualStyleBackColor = true;
             this.btn_continue.Click += new System.EventHandler(this.btn_continue_Click);
-            // 
-            // pb_project_image
-            // 
-            this.pb_project_image.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_camera_50;
-            this.pb_project_image.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pb_project_image.Location = new System.Drawing.Point(33, 53);
-            this.pb_project_image.Name = "pb_project_image";
-            this.pb_project_image.Size = new System.Drawing.Size(400, 160);
-            this.pb_project_image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_project_image.TabIndex = 20;
-            this.pb_project_image.TabStop = false;
-            // 
-            // btn_loadimage
-            // 
-            this.btn_loadimage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_loadimage.BackgroundImage = global::LongShiftLanguage.Properties.Resources.download;
-            this.btn_loadimage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_loadimage.FlatAppearance.BorderSize = 0;
-            this.btn_loadimage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_loadimage.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btn_loadimage.ForeColor = System.Drawing.Color.White;
-            this.btn_loadimage.Location = new System.Drawing.Point(125, 13);
-            this.btn_loadimage.Name = "btn_loadimage";
-            this.btn_loadimage.Size = new System.Drawing.Size(24, 24);
-            this.btn_loadimage.TabIndex = 19;
-            this.btn_loadimage.UseVisualStyleBackColor = true;
-            this.btn_loadimage.Click += new System.EventHandler(this.btn_loadimage_Click);
             // 
             // AddProject
             // 

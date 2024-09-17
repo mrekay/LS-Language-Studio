@@ -33,6 +33,8 @@ namespace LongShiftLanguage.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectSelector));
             this.label1 = new System.Windows.Forms.Label();
             this.panel_projects = new System.Windows.Forms.Panel();
+            this.btn_add_lang = new System.Windows.Forms.Button();
+            this.btn_delete_lang = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -40,7 +42,7 @@ namespace LongShiftLanguage.Forms
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(134, 48);
+            this.label1.Location = new System.Drawing.Point(12, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(187, 25);
             this.label1.TabIndex = 0;
@@ -58,6 +60,32 @@ namespace LongShiftLanguage.Forms
             this.panel_projects.Size = new System.Drawing.Size(440, 367);
             this.panel_projects.TabIndex = 1;
             // 
+            // btn_add_lang
+            // 
+            this.btn_add_lang.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_plus_48;
+            this.btn_add_lang.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_add_lang.FlatAppearance.BorderSize = 0;
+            this.btn_add_lang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_add_lang.Location = new System.Drawing.Point(388, 52);
+            this.btn_add_lang.Name = "btn_add_lang";
+            this.btn_add_lang.Size = new System.Drawing.Size(28, 28);
+            this.btn_add_lang.TabIndex = 3;
+            this.btn_add_lang.UseVisualStyleBackColor = true;
+            this.btn_add_lang.Click += new System.EventHandler(this.crate_btn_Click);
+            // 
+            // btn_delete_lang
+            // 
+            this.btn_delete_lang.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_trash_48;
+            this.btn_delete_lang.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_delete_lang.FlatAppearance.BorderSize = 0;
+            this.btn_delete_lang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_delete_lang.Location = new System.Drawing.Point(426, 52);
+            this.btn_delete_lang.Name = "btn_delete_lang";
+            this.btn_delete_lang.Size = new System.Drawing.Size(28, 28);
+            this.btn_delete_lang.TabIndex = 4;
+            this.btn_delete_lang.UseVisualStyleBackColor = true;
+            this.btn_delete_lang.Click += new System.EventHandler(this.btn_delete_lang_Click);
+            // 
             // ProjectSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -65,6 +93,8 @@ namespace LongShiftLanguage.Forms
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(467, 465);
             this.ControlBox = false;
+            this.Controls.Add(this.btn_delete_lang);
+            this.Controls.Add(this.btn_add_lang);
             this.Controls.Add(this.panel_projects);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -86,5 +116,7 @@ namespace LongShiftLanguage.Forms
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Panel panel_projects;
-	}
+        private System.Windows.Forms.Button btn_add_lang;
+        private System.Windows.Forms.Button btn_delete_lang;
+    }
 }

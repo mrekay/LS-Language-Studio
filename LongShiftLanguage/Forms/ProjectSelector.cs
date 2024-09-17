@@ -1,5 +1,4 @@
 ﻿using LongShiftLanguage.Classes;
-using LongShiftLanguage.Classes.Abstract;
 using LongShiftLanguage.Classes.Components;
 using LongShiftLanguage.libs.multilanguage_support;
 using System;
@@ -16,59 +15,41 @@ using static functions;
 
 namespace LongShiftLanguage.Forms
 {
-	public partial class ProjectSelector : LSForm
-	{
+    public partial class ProjectSelector : LSForm
+    {
 
-		DatabaseConnection database;
-		ProjectManager projectsManager;
+        ProjectManager projectsManager;
 
-		List<Classes.Project> projects;
         Classes.Project _selectedProject;
 
-		public ProjectSelector(DatabaseConnection _db)
-		{
-			InitializeComponent();
+        public ProjectSelector(ProjectManager projectManager)
+        {
+            InitializeComponent();
+            projectsManager = projectManager;
 
-			database = _db;
-			projectsManager = new ProjectManager(database,this);
+            InitalizeApps();
+            Shown += FormReady;
+        }
 
-			InitalizeApps();
-			Shown += FormReady;
-		}
+        private void FormReady(object sender, EventArgs e)
+        {
+            CreateCustomSettingsButton();
 
-		private void FormReady(object sender, EventArgs e)
-		{
-			CreateCustomSettingsButton();
+        }
 
-            CreateCustomCreateButton();
-		}
-
-		void CreateCustomCreateButton()
-		{
-			var crate_btn = new Button();
-			crate_btn.BackgroundImage = global::LongShiftLanguage.Properties.Resources.add;
-			crate_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			crate_btn.FlatAppearance.BorderSize = 0;
-			crate_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			crate_btn.Name = "btn_create_lang";
-			crate_btn.Size = new System.Drawing.Size(24, 24);
-			crate_btn.Anchor = AnchorStyles.Right;
-			crate_btn.Click += new System.EventHandler(crate_btn_Click);
-			ControlsBox.AddCustomControl(crate_btn);
-		}
-		void CreateCustomSettingsButton()
-		{
-			var crate_btn = new Button();
-			crate_btn.BackgroundImage = global::LongShiftLanguage.Properties.Resources.globe;
-			crate_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			crate_btn.FlatAppearance.BorderSize = 0;
-			crate_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			crate_btn.Name = "btn_settings";
-			crate_btn.Size = new System.Drawing.Size(24, 24);
-			crate_btn.Anchor = AnchorStyles.Right;
-			crate_btn.Click += new System.EventHandler(btn_settings_click);
-			ControlsBox.AddCustomControl(crate_btn);
-		}
+        void CreateCustomSettingsButton()
+        {
+            var crate_btn = new Button();
+            crate_btn.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_globe_48;
+            crate_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            crate_btn.FlatAppearance.BorderSize = 0;
+            crate_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            crate_btn.Name = "btn_settings";
+            crate_btn.Size = new System.Drawing.Size(24, 24);
+            crate_btn.Anchor = AnchorStyles.Right;
+            crate_btn.Click += new System.EventHandler(btn_settings_click);
+            ControlsBox.AddCustomControl(crate_btn);
+        }
 
         private void btn_settings_click(object sender, EventArgs e)
         {
@@ -77,55 +58,111 @@ namespace LongShiftLanguage.Forms
         }
 
         private void InitalizeApps()
-		{
-			panel_projects.Controls.Clear();
-			projects = projectsManager.TranslationAppsSelectList();
+        {
+            panel_projects.Controls.Clear();
 
-			var projKey = 0;
-			foreach (var project in projects)
-			{
-				var newPB = CreateprojectselectPB(projKey.ToString(), project.name);
-				panel_projects.Controls.Add(newPB);
-				newPB.Location = new Point(((panel_projects.Size.Width - newPB.Size.Width)/2), 20 +(newPB.Height*(panel_projects.Controls.Count-1) + (8 * (panel_projects.Controls.Count - 1))) );
+            var projKey = 0;
+            foreach (var project in projectsManager.projectList)
+            {
+                var projObject = ProjectManager.ToProject(project);
+
+                var newPB = CreateprojectselectPB(projObject, projectsManager.projectList.IndexOf(project));
+                panel_projects.Controls.Add(newPB);
+                newPB.Location = new Point(((panel_projects.Size.Width - newPB.Size.Width) / 2), 20 + (newPB.Height * (panel_projects.Controls.Count - 1) + (8 * (panel_projects.Controls.Count - 1))));
                 projKey++;
-			}
+            }
 
-		}
+        }
 
-		public AppButton CreateprojectselectPB(string appID,string appName)
-		{
-			var selectProjectPB = new AppButton(ConvertBase64ToImage(projects[Convert.ToInt32(appID)].photo), appName,appID);
+        public AppButton CreateprojectselectPB(Project proj, int projID)
+        {
+            var selectProjectPB = new AppButton(ConvertBase64ToImage(proj.photo), proj.name, projID);
 
             selectProjectPB.Click += SelectProjPB_Click;
-			return selectProjectPB;
-		}
+            selectProjectPB.appNameLabel.Click += SelectProjPB_Click;
+            selectProjectPB.deleteLanguageButton.Click += DeleteLanguageButton_Click;
+            return selectProjectPB;
+        }
 
-		private void SelectProjPB_Click(object sender, EventArgs e)
-		{
-			_selectedProject =  projects[Convert.ToInt32((sender as PictureBox).Tag)];
-			this.Close();
-		}
+        private void DeleteLanguageButton_Click(object sender, EventArgs e)
+        {
+            var projectID = Convert.ToInt32((sender as Control).Tag);
+            var project = ProjectManager.ToProject(projectsManager.projectList[projectID]);
+            projectsManager.projectList.RemoveAt(projectID);
+            projectsManager.Save();
+            InitalizeApps();
+        }
 
-		public Classes.Project GetSelectedProject()
-		{
-			return _selectedProject;
-		}
+        private void SelectProjPB_Click(object sender, EventArgs e)
+        {
+            var projectID = Convert.ToInt32((sender as PictureBox).Tag);
+            var project = ProjectManager.ToProject(projectsManager.projectList[projectID]);
+            if (!File.Exists(project.path))
+            {
+                RemoveProjectQuestion(projectID);
+                return;
+            }
+            try
+            {
+                project = Project.Load(project.path);
+            }
+            catch (Exception ex)
+            {
+                RemoveProjectQuestion(projectID);
+                return;
+            }
 
-		private void ProjectSelector_FormClosed(object sender, FormClosedEventArgs e)
-		{
+            Project.instance = project;
+            _selectedProject = project;
+            this.Close();
+        }
 
-		}
+        public void RemoveProjectQuestion(int projectID)
+        {
+            if (MessageBox.Show(LangCtrl.GetText("PROJECT_REMOVED_OR_DELETED"), LangCtrl.GetText("WARNING"),MessageBoxButtons.YesNo,MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                projectsManager.projectList.RemoveAt(projectID);
+                projectsManager.Save();
+                InitalizeApps();
+            }
+        }
 
-		private void crate_btn_Click(object sender, EventArgs e)
-		{
-			AddProject addProject = new AddProject(database);
-			addProject.ShowDialog();
-			InitalizeApps();
-		}
+        public Classes.Project GetSelectedProject()
+        {
+            return _selectedProject;
+        }
+
+        private void ProjectSelector_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
+
+        private void crate_btn_Click(object sender, EventArgs e)
+        {
+            AddProject addProject = new AddProject(projectsManager);
+            addProject.ShowDialog();
+            InitalizeApps();
+        }
 
         private void ProjectSelector_Load(object sender, EventArgs e)
         {
-			label1.Text = LangCtrl.GetText("PLEASE_SELECT_PROJECT");
+            label1.Text = LangCtrl.GetText("PLEASE_SELECT_PROJECT");
+        }
+
+        private void btn_delete_lang_Click(object sender, EventArgs e)
+        {
+            ToggleDeletionMode();
+        }
+
+        bool deletionMode = false;
+        private void ToggleDeletionMode()
+        {
+            deletionMode = !deletionMode;
+            foreach(var projectBtn in panel_projects.Controls)
+            {
+                AppButton projbtn = projectBtn as AppButton;
+                projbtn.deleteLanguageButton.Visible = deletionMode;
+            }
         }
     }
 }

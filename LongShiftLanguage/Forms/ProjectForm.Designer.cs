@@ -40,11 +40,14 @@
             this.projeyiKaydetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.çıktıKonumunuBelirleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tümProjeyiÇıktıAlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.lSLHakkındaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.çıkışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.last_process_label = new System.Windows.Forms.ToolStripLabel();
-            this.tümProjeyiÇıktıAlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LanguageTabControl
@@ -52,6 +55,7 @@
             this.LanguageTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.LanguageTabControl.ItemSize = new System.Drawing.Size(0, 20);
             this.LanguageTabControl.Location = new System.Drawing.Point(0, 51);
             this.LanguageTabControl.Name = "LanguageTabControl";
             this.LanguageTabControl.Padding = new System.Drawing.Point(12, 3);
@@ -71,10 +75,13 @@
             this.projeyiKaydetToolStripMenuItem,
             this.toolStripSeparator2,
             this.çıktıKonumunuBelirleToolStripMenuItem,
-            this.tümProjeyiÇıktıAlToolStripMenuItem});
+            this.tümProjeyiÇıktıAlToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.lSLHakkındaToolStripMenuItem,
+            this.çıkışToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(271, 192);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(271, 220);
             // 
             // yeniDilOluşturToolStripMenuItem
             // 
@@ -140,11 +147,37 @@
             this.çıktıKonumunuBelirleToolStripMenuItem.Text = "Çıktı Konumunu Belirle";
             this.çıktıKonumunuBelirleToolStripMenuItem.Click += new System.EventHandler(this.çıktıKonumunuBelirleToolStripMenuItem_Click);
             // 
+            // tümProjeyiÇıktıAlToolStripMenuItem
+            // 
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Name = "tümProjeyiÇıktıAlToolStripMenuItem";
+            this.tümProjeyiÇıktıAlToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Text = "Tüm Projeyi Çıktı Al";
+            this.tümProjeyiÇıktıAlToolStripMenuItem.Click += new System.EventHandler(this.tümProjeyiÇıktıAlToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(267, 6);
+            // 
+            // lSLHakkındaToolStripMenuItem
+            // 
+            this.lSLHakkındaToolStripMenuItem.Name = "lSLHakkındaToolStripMenuItem";
+            this.lSLHakkındaToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.lSLHakkındaToolStripMenuItem.Text = "LSL Hakkında";
+            this.lSLHakkındaToolStripMenuItem.Click += new System.EventHandler(this.lSLHakkındaToolStripMenuItem_Click);
+            // 
+            // çıkışToolStripMenuItem
+            // 
+            this.çıkışToolStripMenuItem.Name = "çıkışToolStripMenuItem";
+            this.çıkışToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.çıkışToolStripMenuItem.Text = "Çıkış";
+            this.çıkışToolStripMenuItem.Click += new System.EventHandler(this.çıkışToolStripMenuItem_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.last_process_label});
             this.toolStrip1.Location = new System.Drawing.Point(0, 581);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(954, 25);
@@ -155,15 +188,6 @@
             // 
             this.last_process_label.Name = "last_process_label";
             this.last_process_label.Size = new System.Drawing.Size(0, 22);
-            // 
-            // tümProjeyiÇıktıAlToolStripMenuItem
-            // 
-            this.tümProjeyiÇıktıAlToolStripMenuItem.Name = "tümProjeyiÇıktıAlToolStripMenuItem";
-            this.tümProjeyiÇıktıAlToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.E)));
-            this.tümProjeyiÇıktıAlToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
-            this.tümProjeyiÇıktıAlToolStripMenuItem.Text = "Tüm Projeyi Çıktı Al";
-            this.tümProjeyiÇıktıAlToolStripMenuItem.Click += new System.EventHandler(this.tümProjeyiÇıktıAlToolStripMenuItem_Click);
             // 
             // ProjectForm
             // 
@@ -179,8 +203,6 @@
             this.Name = "ProjectForm";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProjectForm_KeyDown);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,5 +222,9 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripLabel last_process_label;
         private System.Windows.Forms.ToolStripMenuItem tümProjeyiÇıktıAlToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem lSLHakkındaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem çıkışToolStripMenuItem;
     }
 }

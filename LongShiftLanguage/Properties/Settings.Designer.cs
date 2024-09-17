@@ -25,18 +25,6 @@ namespace LongShiftLanguage.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string default_export_location {
-            get {
-                return ((string)(this["default_export_location"]));
-            }
-            set {
-                this["default_export_location"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("en")]
         public string ml_support_default_language {
             get {

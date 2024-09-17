@@ -1,5 +1,4 @@
 ﻿using LongShiftLanguage.Classes;
-using LongShiftLanguage.Classes.Abstract;
 using LongShiftLanguage.libs.multilanguage_support;
 using System;
 using System.Collections.Generic;
@@ -17,13 +16,11 @@ namespace LongShiftLanguage.Forms
 	public partial class AddLanguage : LSForm
 	{
 
-		DatabaseConnection database;
 		Project project;
-		public AddLanguage(DatabaseConnection database, Project project)
+		public AddLanguage(Project project)
 		{
 			InitializeComponent();
             LoadLanguageTexts();
-			this.database = database;
 			this.project = project;	
 		}
 
@@ -53,12 +50,11 @@ namespace LongShiftLanguage.Forms
 				imperativeDefaultLang = true;
 			}
 
-			Language lang = new Language(database);
-			lang.projID = project.id.ToString();
-			lang.name = tb_proj_name.Text;
-			lang.isDefault = checkBox1.Checked || imperativeDefaultLang ? "1" : "0";
-			if (lang.CreateLanguage())
+			var lang = Language.CreateLanguage(tb_proj_name.Text, checkBox1.Checked || imperativeDefaultLang ? "1" : "0", "");
+
+            if (lang != null)
 			{
+				project.languageManager.languageList.Add(lang);
 				NotificationManager.CreateNotification(LangCtrl.GetText("LANG_CREATED"), LangCtrl.GetText("OPERATION_SUCCESSFUL"), SystemIcons.Information);
 				this.Close();
 			}
@@ -70,5 +66,15 @@ namespace LongShiftLanguage.Forms
 
 
 		}
-	}
+
+        private void tb_proj_name_KeyDown(object sender, KeyEventArgs e)
+        {
+			if (e.KeyCode == Keys.Enter ||e.KeyCode == Keys.Return) {
+
+				btn_continue.PerformClick();
+				e.SuppressKeyPress = true;
+				return;
+			}
+        }
+    }
 }

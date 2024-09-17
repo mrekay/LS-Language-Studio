@@ -1,5 +1,4 @@
 ﻿using LongShiftLanguage.Classes;
-using LongShiftLanguage.Classes.Abstract;
 using LongShiftLanguage.libs.multilanguage_support;
 using MySqlX.XDevAPI.Relational;
 using System;
@@ -18,16 +17,14 @@ namespace LongShiftLanguage.Forms
 	public partial class ReplaceInAllLanguages : LSForm
 	{
 
-		DatabaseConnection database;
 		Project project;
 		ProjectForm projectForm;
 
 
-		public ReplaceInAllLanguages(Project proj, DatabaseConnection database, ProjectForm projectForm)
+		public ReplaceInAllLanguages(Project proj, ProjectForm projectForm)
 		{
 			InitializeComponent();
 			this.project = proj;
-			this.database = database;
 			this.projectForm = projectForm;
 
             LoadLanguageTexts();
@@ -82,7 +79,7 @@ namespace LongShiftLanguage.Forms
 					otherLE.addKeywordItem("", row.Cells["keyname"].Value.ToString(), value);
 
 			}
-			NotificationManager.CreateNotification("İşlem başarılı", "Kaydedildi", SystemIcons.Information);
+			NotificationManager.CreateNotification(LangCtrl.GetText("OPERATION_SUCCESSFUL"), LangCtrl.GetText("SAVED"), SystemIcons.Information);
 			this.Close();
 		}
 	}

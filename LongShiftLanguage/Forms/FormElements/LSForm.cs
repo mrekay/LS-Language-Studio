@@ -11,7 +11,7 @@ public class LSForm : Form
 {
 
 	public bool ShowCustomControlBox = true;
-	public string FormText;
+	public FormTextType formTextType = FormTextType.Default;
 	public ControlsBox ControlsBox;
 
 	public LSForm()
@@ -138,5 +138,12 @@ public class LSForm : Form
 		catch { Application.Exit(); }
 	}
 	#endregion
+}
+
+public enum FormTextType
+{
+	None,
+	OnlyFormText,
+	Default
 }
 

@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LongShiftLanguage.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="default_export_location" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="ml_support_default_language" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en</Value>
     </Setting>
   </Settings>
 </SettingsFile>

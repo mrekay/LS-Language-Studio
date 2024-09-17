@@ -1,6 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using LongShiftLanguage.Classes;
-using LongShiftLanguage.Classes.Abstract;
 using LongShiftLanguage.Classes.Components;
 using LongShiftLanguage.libs.multilanguage_support;
 using MySqlX.XDevAPI.Relational;
@@ -22,18 +21,16 @@ namespace LongShiftLanguage.Forms
 {
     public partial class LanguageEditor : Form
     {
-        DatabaseConnection database;
         Classes.Project project;
         ProjectForm projectFrm;
         Language loadedLanguage;
         bool isDefault;
         string importedJson;
         List<DataGridViewRow> new_rows = new List<DataGridViewRow>();
-        public LanguageEditor(DatabaseConnection _db, Classes.Project _project, ProjectForm _proj, Language loadingLang)
+        public LanguageEditor( Classes.Project _project, ProjectForm _proj, Language loadingLang)
         {
             InitializeComponent();
             LoadLanguageTexts();
-            database = _db;
             project = _project;
             projectFrm = _proj;
             loadedLanguage = loadingLang;
@@ -134,8 +131,8 @@ namespace LongShiftLanguage.Forms
         {
             // SaveFileDialog oluşturuyoruz
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "JSON Files (*.json)|*.json";
-            saveFileDialog.Title = "Save JSON File";
+            saveFileDialog.Filter = LangCtrl.GetText("JSON_FILES") +" (*.json)|*.json";
+            saveFileDialog.Title = LangCtrl.GetText("SAVE_JSON_FILE");
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -150,8 +147,8 @@ namespace LongShiftLanguage.Forms
         void ImportJSON(bool merge = false)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "JSON Files|*.json";
-            openFileDialog.Title = "Select a JSON File";
+            openFileDialog.Filter = LangCtrl.GetText("JSON_FILES") +"|*.json";
+            openFileDialog.Title = LangCtrl.GetText("SELECT_A_JSON_FILE");
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -172,7 +169,7 @@ namespace LongShiftLanguage.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred while reading the JSON file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(string.Format(LangCtrl.GetText("ERROR_OCCURRED_WHILE_READING_JSON"), ex.Message), LangCtrl.GetText("ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -220,27 +217,30 @@ namespace LongShiftLanguage.Forms
         {
             dgv_keywords.Rows[Convert.ToInt32(id)].Cells["keyvalue"].Value = value;
         }
-        internal void exportAlone()
+        internal bool exportAlone()
         {
             try
             {
-                var loc = Properties.Settings.Default.default_export_location + "\\" + loadedLanguage.name + ".json";
+                var defaultExportLoc = Project.instance.GetDefaultExportLocation();
+                if (string.IsNullOrEmpty(defaultExportLoc)) return false;
+                var loc = Path.Combine(defaultExportLoc, loadedLanguage.name + ".json");
                 File.WriteAllText(loc, ExportJSONText());
                 ProjectForm.SetLastProcessLabel(string.Format(LangCtrl.GetText("FILE_SAVED_TO"), loc));
+                return true;
             }
             catch (Exception ex)
             {
                 ProjectForm.SetLastProcessLabel(LangCtrl.GetText("OEPRATION_FAILED"));
+                return false;
             }
         }
         internal void saveAlone()
         {
             loadedLanguage.JSON = ExportJSONText(true);
-            loadedLanguage.UpdateLanguage();
+            loadedLanguage.SaveLanguage();
         }
         internal void reloadAlone()
         {
-            loadedLanguage.Select();
             ImportJSONText(loadedLanguage.JSON);
         }
         private void dgv_keywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -313,7 +313,7 @@ namespace LongShiftLanguage.Forms
 
         private void btn_export_to_loc_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Properties.Settings.Default.default_export_location))
+            if (string.IsNullOrEmpty(Project.instance.GetDefaultExportLocation()))
             {
                 ExportJson();
             }
@@ -356,7 +356,7 @@ namespace LongShiftLanguage.Forms
         }
         private void btn_exportjson_Click(object sender, EventArgs e)
         {
-            if (dgv_keywords.SelectedRows.Count > 1) MessageBox.Show("Seçili öğeler var. Sadece seçili olan öğeler çıkartılacaktır.", "Bilgilendirme", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (dgv_keywords.SelectedRows.Count > 1) MessageBox.Show(LangCtrl.GetText("THERE_ARE_SELECTED_FILES"), LangCtrl.GetText("INFORMATION"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             ExportJson();
         }
         private void btn_importJSON_Click(object sender, EventArgs e)
@@ -369,7 +369,7 @@ namespace LongShiftLanguage.Forms
         }
         private void btn_reload_Click_1(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Tüm Projeyi Yeniden Yüklemek İçin Evet Basın.\n(Hayır derseniz sadece bu dil yeniden yüklenecek.)", "Yeniden Yükleme", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(LangCtrl.GetText("RELOAD_ALL_PROJECT_OR_RELOAD_SINGLE_LANGUAGE"), LangCtrl.GetText("RELOAD"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 projectFrm.ReloadAll();
             }
@@ -397,7 +397,7 @@ namespace LongShiftLanguage.Forms
         {
             if (dgv_keywords.SelectedRows.Count <= 0) return;
 
-            ReplaceInAllLanguages replaceInAll = new ReplaceInAllLanguages(project, database, projectFrm);
+            ReplaceInAllLanguages replaceInAll = new ReplaceInAllLanguages(project, projectFrm);
             foreach (DataGridViewRow row in dgv_keywords.SelectedRows)
             {
 
@@ -405,9 +405,45 @@ namespace LongShiftLanguage.Forms
             }
             replaceInAll.ShowDialog();
         }
+
+
         #endregion
 
+        private void copyNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgv_keywords.SelectedRows.Count > 0)
+            Clipboard.SetText(dgv_keywords.SelectedRows[0].Cells["keyname"].Value.ToString());
+        }
 
+        private void copyValueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgv_keywords.SelectedRows.Count > 0)
+                Clipboard.SetText(dgv_keywords.SelectedRows[0].Cells["keyvalue"].Value.ToString());
+        }
 
+        private void deleteEntryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (dgv_keywords.SelectedRows.Count > 0)
+            {
+                foreach (var dgv in dgv_keywords.SelectedRows)
+                {
+                    dgv_keywords.Rows.Remove(dgv as DataGridViewRow);
+                }
+            }
+
+        }
+
+        private void dgv_keywords_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+                // Eğer sağ tıklama yapılmışsa
+                if (e.Button == MouseButtons.Right)
+                {
+                    // Sağ tıklanan hücreyi seçili hale getir
+                    dgv_keywords.ClearSelection();
+                dgv_keywords.Rows[e.RowIndex].Cells[e.ColumnIndex].Selected = true;
+                
+            }
+        }
     }
 }

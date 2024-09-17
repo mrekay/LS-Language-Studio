@@ -114,7 +114,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Abstract\DatabaseConnection.cs" />
     <Compile Include="Classes\Components\AppButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -123,17 +122,19 @@
     </Compile>
     <Compile Include="Classes\ExtentionManager.cs" />
     <Compile Include="Classes\NotificationManager.cs" />
+    <Compile Include="Forms\AboutLSL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutLSL.Designer.cs">
+      <DependentUpon>AboutLSL.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormElements\LSForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\SqliteDatabase.cs" />
-    <Compile Include="Classes\PHPAdapterDatabase.cs" />
     <Compile Include="Classes\Project.cs" />
     <Compile Include="Classes\ProjectManager.cs" />
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\LanguageManager.cs" />
-    <Compile Include="Classes\Session.cs" />
-    <Compile Include="Classes\VersionChecker.cs" />
     <Compile Include="Forms\AddLanguage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,9 +192,13 @@
     <Compile Include="libs\helper\function_special.cs" />
     <Compile Include="libs\helper\JSONHelper.cs" />
     <Compile Include="libs\helper\WindowsColor.cs" />
+    <Compile Include="libs\helper\XmlHelper.cs" />
     <Compile Include="libs\multilanguage_support\LangCtrl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\AboutLSL.resx">
+      <DependentUpon>AboutLSL.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormElements\LSForm.resx">
       <DependentUpon>LSForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -257,76 +262,34 @@
     <None Include="Resources\LOGO.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\minus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\diskette.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\reload.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\trash-can.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\import.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\maximize.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\download.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\reload %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pipe.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\trash-bin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\upload %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\copy %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pipe1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\languages.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="languages.ico" />
-    <None Include="Resources\icons8-camera-50.png" />
-    <None Include="Resources\exportall.png" />
+    <None Include="Resources\Interface\icons8-change-48.png" />
+    <None Include="Resources\Interface\icons8-save-as-48.png" />
+    <None Include="Resources\Interface\icons8-add-file-48.png" />
+    <None Include="Resources\Interface\icons8-globe-48.png" />
+    <None Include="Resources\Interface\icons8-camera-48.png" />
+    <Content Include="Resources\Interface\icons8-close-48.png" />
+    <Content Include="Resources\Interface\icons8-copy-48.png" />
+    <Content Include="Resources\Interface\icons8-data-transfer-48.png" />
+    <Content Include="Resources\Interface\icons8-download-48.png" />
+    <Content Include="Resources\Interface\icons8-export-48.png" />
+    <Content Include="Resources\Interface\icons8-maximize-window-48.png" />
+    <Content Include="Resources\Interface\icons8-minus-48.png" />
+    <Content Include="Resources\Interface\icons8-plus-48.png" />
+    <Content Include="Resources\Interface\icons8-save-48.png" />
+    <Content Include="Resources\Interface\icons8-search-48.png" />
+    <Content Include="Resources\Interface\icons8-settings-48.png" />
+    <Content Include="Resources\Interface\icons8-synchronize-48.png" />
+    <Content Include="Resources\Interface\icons8-trash-48.png" />
+    <Content Include="Resources\Interface\icons8-upload-48.png" />
     <None Include="Resources\globe.png" />
-    <None Include="Resources\drop.png" />
-    <None Include="Resources\option.png" />
-    <None Include="Resources\copy.png" />
-    <None Include="Resources\upload.png" />
-    <None Include="Resources\find-and-replace.png" />
-    <None Include="Resources\search.png" />
-    <None Include="Resources\arrow.png" />
-    <None Include="Resources\unity.png" />
-    <None Include="Resources\setting.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Resources\Fonts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

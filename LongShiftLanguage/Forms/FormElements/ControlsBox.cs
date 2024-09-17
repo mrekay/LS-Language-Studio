@@ -18,9 +18,9 @@ namespace LongShiftLanguage.Forms.FormElements
 		public Button resize_button;
 		public Button minimize_button;
 
-		public Control Parent;
+		public LSForm Parent;
 
-		public ControlsBox(Control parent)
+		public ControlsBox(LSForm parent)
 		{
 
 			Dock =  DockStyle.Top;
@@ -37,9 +37,8 @@ namespace LongShiftLanguage.Forms.FormElements
 
 		private void InitalizeControlDesign()
 		{
-			var parentform = Parent as LSForm;
 			/*FormIcon*/
-			if (parentform.ShowIcon)
+			if (Parent.ShowIcon)
 			{
 				form_icon = new PictureBox();
 				form_icon.Size = new System.Drawing.Size(32, 32);
@@ -58,7 +57,7 @@ namespace LongShiftLanguage.Forms.FormElements
 			form_label.Location = new System.Drawing.Point(form_icon.Width+15, (form_icon.Location.Y / 2) + (form_label.Height/2));
 			form_label.ForeColor = config_definitions.APP_THEME;
 			form_label.Name = "form_label";
-			form_label.Text = config_definitions.ApplicationName +(!string.IsNullOrEmpty(parentform.FormText) ? " - " + parentform.FormText : "");
+            form_label.Text = GetTitle();
 			form_label.Anchor = AnchorStyles.Left;
 			this.Controls.Add(form_label);
 
@@ -67,7 +66,7 @@ namespace LongShiftLanguage.Forms.FormElements
 			close_button = new Button();
 			close_button.FlatStyle = FlatStyle.Flat;
 			close_button.FlatAppearance.BorderSize = 0;
-			close_button.BackgroundImage = Resources.close;
+			close_button.BackgroundImage = Resources.icons8_close_48;
 			close_button.BackgroundImageLayout = ImageLayout.Zoom;
 			close_button.Size = new System.Drawing.Size(35,32);
 			close_button.Location = new Point((Width-8)-close_button.Width, (Height / 2) - (close_button.Height / 2));
@@ -75,12 +74,12 @@ namespace LongShiftLanguage.Forms.FormElements
 			close_button.Name = "btn_close";
 			this.Controls.Add(close_button);
 		
-			if (parentform.MaximizeBox) { 
+			if (Parent.MaximizeBox) { 
 			/* Resize Button*/
 			resize_button = new Button();
 			resize_button.FlatStyle = FlatStyle.Flat;
 			resize_button.FlatAppearance.BorderSize = 0;
-			resize_button.BackgroundImage = Resources.pipe1;
+			resize_button.BackgroundImage = Resources.icons8_maximize_window_48;
 			resize_button.BackgroundImageLayout = ImageLayout.Zoom;
 			resize_button.Size = new System.Drawing.Size(35,32);
 			resize_button.Location = new Point(((close_button.Location.X-8))-resize_button.Width, (Height / 2) - (close_button.Height / 2));
@@ -89,12 +88,12 @@ namespace LongShiftLanguage.Forms.FormElements
 			this.Controls.Add(resize_button);
 			}
 
-			if (parentform.MinimizeBox) { 
+			if (Parent.MinimizeBox) { 
 			/* Minimize Button*/
 			minimize_button = new Button();
 			minimize_button.FlatStyle = FlatStyle.Flat;
 			minimize_button.FlatAppearance.BorderSize = 0;
-			minimize_button.BackgroundImage = Resources.minus;
+			minimize_button.BackgroundImage = Resources.icons8_minus_48;
 			minimize_button.BackgroundImageLayout = ImageLayout.Zoom;
 			minimize_button.Size = new System.Drawing.Size(35,32);
 			minimize_button.Location = new Point(((resize_button.Location.X-8))- minimize_button.Width, (Height / 2) - (close_button.Height / 2));
@@ -104,6 +103,22 @@ namespace LongShiftLanguage.Forms.FormElements
 			}
 
 		}
+
+        private string GetTitle()
+        {
+			switch (Parent.formTextType)
+			{
+				case FormTextType.None:
+					return "";
+				case FormTextType.OnlyFormText:
+					return Parent.Text;
+				case FormTextType.Default:
+				default:
+					return config_definitions.ApplicationName + (!string.IsNullOrEmpty(Parent.Text) ? " - " + Parent.Text : "");
+            }
+
+        }
+
 
 		public void AddCustomControl(Control control)
 		{

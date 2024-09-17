@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using static config_definitions;
 using static function_special;
 using System.Diagnostics;
-using LongShiftLanguage.Classes.Abstract;
 using System.Management.Instrumentation;
 using LongShiftLanguage.libs.multilanguage_support;
 
@@ -17,7 +16,7 @@ namespace LongShiftLanguage.Forms
 
         internal static ProjectForm instance;
 
-        private DatabaseConnection database;
+        public ProjectManager projectManager;
         private Classes.Project SelectedProject;
         private LanguageEditor StandardTabPage;
 
@@ -30,23 +29,14 @@ namespace LongShiftLanguage.Forms
         public ProjectForm()
         {
             instance = this;
-            //database = new Database();
-            database = function_special.CreateDBConnection();
-            var versionChecker = new VersionChecker(database);
-            if (!versionChecker.CheckVersion())
+            projectManager =  ProjectManager.Load();
+            if (projectManager == null || projectManager.projectList == null)
             {
-                var dialogResult = MessageBox.Show(string.Format(LangCtrl.GetText("NEW_VERSION_RELEASED"), versionChecker.version), LangCtrl.GetText("NEW_VERSION"), MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Process.Start(versionChecker.url);
-                }
-
-                Application.Exit();
-                exit = true;
-
-
+                projectManager = new ProjectManager();
+                projectManager.projectList = new System.Collections.Generic.List<Project>();
+                projectManager.Save();
             }
-
+           
             InitializeComponent();
             LoadLanguageTexts();
             (new SplashScreen()).ShowDialog();
@@ -55,7 +45,7 @@ namespace LongShiftLanguage.Forms
 
             if (SelectedProject == null)
             {
-                ProjectSelector projectProjectSelector = new ProjectSelector(database);
+                ProjectSelector projectProjectSelector = new ProjectSelector(projectManager);
 
                 projectProjectSelector.FormClosing += SelectAproject;
                 projectProjectSelector.ShowDialog();
@@ -71,7 +61,7 @@ namespace LongShiftLanguage.Forms
             /* initalize Extention resources*/
             InitializeExtentionResources();
 
-
+            this.KeyPreview = true;
             CreateTabs();
             Shown += FormReady;
 
@@ -85,6 +75,9 @@ namespace LongShiftLanguage.Forms
             projeyiKaydetToolStripMenuItem.Text = LangCtrl.GetText("SAVE_PROJECT");
             seçiliDiliSilToolStripMenuItem.Text = LangCtrl.GetText("DELETE_SELECTED_LANGUAGE");
             çıktıKonumunuBelirleToolStripMenuItem.Text = LangCtrl.GetText("SET_OUTPUT_LOCATION");
+            lSLHakkındaToolStripMenuItem.Text = LangCtrl.GetText("ABOUT_LSL");
+            tümProjeyiÇıktıAlToolStripMenuItem.Text = LangCtrl.GetText("EXPORT_ALL_LANGS");
+            çıkışToolStripMenuItem.Text = LangCtrl.GetText("EXIT");
         }
 
         private void InitializeExtentionResources()
@@ -102,6 +95,7 @@ namespace LongShiftLanguage.Forms
         private void FormReady(object sender, EventArgs e)
         {
             CreateMenuButton();
+            CreateExportAllButton();
         }
 
         void CreateMenuButton()
@@ -111,7 +105,7 @@ namespace LongShiftLanguage.Forms
             // 
             var btn_output_loc = new Button();
             btn_output_loc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            btn_output_loc.BackgroundImage = global::LongShiftLanguage.Properties.Resources.option;
+            btn_output_loc.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_settings_48;
             btn_output_loc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             btn_output_loc.FlatAppearance.BorderSize = 0;
             btn_output_loc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -120,12 +114,26 @@ namespace LongShiftLanguage.Forms
             btn_output_loc.Click += new System.EventHandler(this.btn_output_loc_Click);
             ControlsBox.AddCustomControl(btn_output_loc);
         }
+        void CreateExportAllButton()
+        {
+            var btn_export_all = new Button();
+            btn_export_all.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            btn_export_all.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_export_48_32;
+            btn_export_all.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            btn_export_all.FlatAppearance.BorderSize = 0;
+            btn_export_all.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btn_export_all.Name = "btn_export_all_button";
+            btn_export_all.Size = new System.Drawing.Size(35, 32);
+            btn_export_all.Click += new System.EventHandler(this.btn_export_all_Click);
+            toolTip1.SetToolTip(btn_export_all, LangCtrl.GetText("EXPORT_ALL_LANGS"));
+            ControlsBox.AddCustomControl(btn_export_all);
+        }
 
         private void CreateTabs()
         {
             foreach (var item in SelectedProject.languageManager.languageList)
             {
-                var leditor = new LanguageEditor(database, SelectedProject, this, item);
+                var leditor = new LanguageEditor(SelectedProject, this, item);
                 var ltab = new TabPage(item.name + (item.isDefault == "1" ? " - " + LangCtrl.GetText("DEFAULT") : ""));
                 leditor.TopLevel = false;
                 leditor.Dock = DockStyle.Fill;
@@ -161,13 +169,18 @@ namespace LongShiftLanguage.Forms
             var location = senderobj.PointToScreen(Point.Empty);
             contextMenuStrip1.Show(location.X, location.Y + senderobj.Height);
         }
+        
+
+        private void btn_export_all_Click(object sender, EventArgs e)
+        {
+            ExportAllLangs();
+        }
 
         private void yeniDilOluşturToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //CreateForm();
-            AddLanguage addLanguage = new AddLanguage(database, SelectedProject);
+            AddLanguage addLanguage = new AddLanguage(SelectedProject);
             addLanguage.ShowDialog();
-            SelectedProject.languageManager.LanguagesSelect();
             ReloadTabs();
 
 
@@ -175,26 +188,7 @@ namespace LongShiftLanguage.Forms
 
         private void çıktıKonumunuBelirleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // FolderBrowserDialog örneği oluşturuluyor
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-
-            // İsteğe bağlı olarak başlangıç dizinini belirleyebilirsiniz
-            folderBrowserDialog.SelectedPath = @"";
-
-            // Kullanıcıya bir klasör seçme penceresi gösterilir
-            DialogResult result = folderBrowserDialog.ShowDialog();
-
-            // Kullanıcı bir klasör seçtiyse ve Tamam düğmesine bastıysa
-            if (result == DialogResult.OK)
-            {
-                // Seçilen klasörün yolu alınır
-                string selectedFolder = folderBrowserDialog.SelectedPath;
-
-                if (string.IsNullOrEmpty(selectedFolder)) { MessageBox.Show(LangCtrl.GetText("SAVE_POINT_CANNOT_BE_EMPTY"), LangCtrl.GetText("ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-                Properties.Settings.Default.default_export_location = selectedFolder;
-                Properties.Settings.Default.Save();
-                MessageBox.Show(LangCtrl.GetText("DATA_OUTPUT_LOCATION_SAVED"));
-            }
+            Project.instance.SetDefaultExportLocation();
         }
 
         private void seçiliDiliSilToolStripMenuItem_Click(object sender, EventArgs e)
@@ -207,7 +201,7 @@ namespace LongShiftLanguage.Forms
                 if (selectedLanguageEditor != null)
                 {
                     selectedLanguageEditor.DeleteLanguage();
-                    SelectedProject.languageManager.LanguagesSelect();
+                    //SelectedProject.languageManager.LanguagesSelect();
 
                     ReloadTabs();
 
@@ -225,6 +219,19 @@ namespace LongShiftLanguage.Forms
             }
         }
 
+        internal void ExportAllLangs()
+        {
+            foreach (TabPage tab in LanguageTabControl.TabPages)
+            {
+                var languageEditor = tab.Controls[0] as LanguageEditor;
+                if (!languageEditor.exportAlone())
+                {
+                    return;
+                }
+            }
+            ProjectForm.SetLastProcessLabel(string.Format(LangCtrl.GetText("ALL_PROJECT_SAVED_AT_X"), Project.instance.GetDefaultExportLocation()));
+        }
+
         void ReloadTabs()
         {
             foreach (var item in SelectedProject.languageManager.languageList)
@@ -239,7 +246,7 @@ namespace LongShiftLanguage.Forms
 
                 if (!hasTab)
                 {
-                    var leditor = new LanguageEditor(database, SelectedProject, this, item);
+                    var leditor = new LanguageEditor(SelectedProject, this, item);
                     var ltab = new TabPage(item.name + (item.isDefault == "1" ? " - " + LangCtrl.GetText("DEFAULT") : ""));
                     leditor.TopLevel = false;
                     leditor.Dock = DockStyle.Fill;
@@ -314,6 +321,16 @@ namespace LongShiftLanguage.Forms
                         çıktıKonumunuBelirleToolStripMenuItem.PerformClick();
                         break;
                 }
+            else if (e.Control && e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9)
+            {
+                int tabIndex = e.KeyCode - Keys.D1; // Ctrl + 1 için 0, Ctrl + 2 için 1, vb.
+                if (tabIndex < this.LanguageTabControl.TabPages.Count)
+                {
+                    this.LanguageTabControl.SelectedIndex = tabIndex;
+                }
+            }
+
+
         }
 
         Timer resetLPLabel = new Timer() { Interval = 2700 };
@@ -329,14 +346,22 @@ namespace LongShiftLanguage.Forms
             instance.last_process_label.Text = LangCtrl.GetText("READY");
         }
 
+
+
         private void tümProjeyiÇıktıAlToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (TabPage tab in LanguageTabControl.TabPages)
-            {
-                var languageEditor = tab.Controls[0] as LanguageEditor;
-                languageEditor.exportAlone();
-            }
-            ProjectForm.SetLastProcessLabel(string.Format("Tüm Proje {0} Konumuna Aktarıldı",Properties.Settings.Default.default_export_location));
+            ExportAllLangs();
+        }
+
+        private void lSLHakkındaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutLSL aboutLSL = new AboutLSL();
+            aboutLSL.ShowDialog();
+        }
+
+        private void çıkışToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
