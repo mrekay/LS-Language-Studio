@@ -38,7 +38,7 @@ namespace LongShiftLanguage.Classes
         }
 
         internal static Project Load(string path) => XmlHelper.XmlDeserialize(typeof(Project), path) as Project;
-
+        
         public string GetDefaultExportLocation()
         {
             if (!Directory.Exists(exportPath))

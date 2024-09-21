@@ -164,5 +164,20 @@ namespace LongShiftLanguage.Forms
                 projbtn.deleteLanguageButton.Visible = deletionMode;
             }
         }
+
+        private void btn_open_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.Filter = "LSL File|*.lslp";
+            if (opf.ShowDialog() == DialogResult.OK)
+            {
+               var project = Project.Load(opf.FileName);
+                project.path = opf.FileName;
+                project.Save();
+                projectsManager.projectList.Add(project);
+                projectsManager.Save();
+                InitalizeApps();
+            }
+        }
     }
 }

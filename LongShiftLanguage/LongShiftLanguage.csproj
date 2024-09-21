@@ -278,6 +278,7 @@
     <Content Include="Resources\Interface\icons8-export-48.png" />
     <Content Include="Resources\Interface\icons8-maximize-window-48.png" />
     <Content Include="Resources\Interface\icons8-minus-48.png" />
+    <Content Include="Resources\Interface\icons8-open-box-48.png" />
     <Content Include="Resources\Interface\icons8-plus-48.png" />
     <Content Include="Resources\Interface\icons8-save-48.png" />
     <Content Include="Resources\Interface\icons8-search-48.png" />

@@ -203,6 +203,16 @@ namespace LongShiftLanguage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_open_box_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-open-box-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_plus_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8_plus_48", resourceCulture);

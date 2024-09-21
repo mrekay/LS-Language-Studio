@@ -33,8 +33,9 @@ namespace LongShiftLanguage.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectSelector));
             this.label1 = new System.Windows.Forms.Label();
             this.panel_projects = new System.Windows.Forms.Panel();
-            this.btn_add_lang = new System.Windows.Forms.Button();
+            this.btn_open = new System.Windows.Forms.Button();
             this.btn_delete_lang = new System.Windows.Forms.Button();
+            this.btn_add_lang = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -60,18 +61,18 @@ namespace LongShiftLanguage.Forms
             this.panel_projects.Size = new System.Drawing.Size(440, 367);
             this.panel_projects.TabIndex = 1;
             // 
-            // btn_add_lang
+            // btn_open
             // 
-            this.btn_add_lang.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_plus_48;
-            this.btn_add_lang.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_add_lang.FlatAppearance.BorderSize = 0;
-            this.btn_add_lang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_add_lang.Location = new System.Drawing.Point(388, 52);
-            this.btn_add_lang.Name = "btn_add_lang";
-            this.btn_add_lang.Size = new System.Drawing.Size(28, 28);
-            this.btn_add_lang.TabIndex = 3;
-            this.btn_add_lang.UseVisualStyleBackColor = true;
-            this.btn_add_lang.Click += new System.EventHandler(this.crate_btn_Click);
+            this.btn_open.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_open_box_48;
+            this.btn_open.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_open.FlatAppearance.BorderSize = 0;
+            this.btn_open.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_open.Location = new System.Drawing.Point(392, 52);
+            this.btn_open.Name = "btn_open";
+            this.btn_open.Size = new System.Drawing.Size(28, 28);
+            this.btn_open.TabIndex = 6;
+            this.btn_open.UseVisualStyleBackColor = true;
+            this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
             // 
             // btn_delete_lang
             // 
@@ -86,6 +87,19 @@ namespace LongShiftLanguage.Forms
             this.btn_delete_lang.UseVisualStyleBackColor = true;
             this.btn_delete_lang.Click += new System.EventHandler(this.btn_delete_lang_Click);
             // 
+            // btn_add_lang
+            // 
+            this.btn_add_lang.BackgroundImage = global::LongShiftLanguage.Properties.Resources.icons8_plus_48;
+            this.btn_add_lang.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_add_lang.FlatAppearance.BorderSize = 0;
+            this.btn_add_lang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_add_lang.Location = new System.Drawing.Point(358, 52);
+            this.btn_add_lang.Name = "btn_add_lang";
+            this.btn_add_lang.Size = new System.Drawing.Size(28, 28);
+            this.btn_add_lang.TabIndex = 3;
+            this.btn_add_lang.UseVisualStyleBackColor = true;
+            this.btn_add_lang.Click += new System.EventHandler(this.crate_btn_Click);
+            // 
             // ProjectSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -93,6 +107,7 @@ namespace LongShiftLanguage.Forms
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(467, 465);
             this.ControlBox = false;
+            this.Controls.Add(this.btn_open);
             this.Controls.Add(this.btn_delete_lang);
             this.Controls.Add(this.btn_add_lang);
             this.Controls.Add(this.panel_projects);
@@ -118,5 +133,6 @@ namespace LongShiftLanguage.Forms
 		private System.Windows.Forms.Panel panel_projects;
         private System.Windows.Forms.Button btn_add_lang;
         private System.Windows.Forms.Button btn_delete_lang;
+        private System.Windows.Forms.Button btn_open;
     }
 }
