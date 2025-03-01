@@ -13,7 +13,7 @@ public static class config_definitions
 		ApplicationVersion = "1.7",
 		DEFAULT_ENCRYPTION_PASSWORD = "LongShiftLanguage.",
 		AppID = "2",
-		ExtensionPath = "/lib/Extensions",
+		ExtensionPath = "\\lib\\Extensions",
 		ProjectsHistoryPath = "./lib/history.xml";
 
 	public static Color APP_THEME = Color.DodgerBlue;

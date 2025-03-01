@@ -76,9 +76,9 @@ namespace LongShiftLanguage.Classes
                         }
                     }
                     }catch (Exception ex) {
-
-                        NotificationManager.CreateNotification(LangCtrl.GetText("SOME_EXTENTIONS_WONT_LOAD"), LangCtrl.GetText("ERROR"), SystemIcons.Warning);
-                    
+                        var message = LangCtrl.GetText("SOME_EXTENTIONS_WONT_LOAD");
+                        NotificationManager.CreateNotification(message, LangCtrl.GetText("ERROR"), SystemIcons.Warning,content_long: message + "\n" + ex.Message.ToString());
+                       
                     }
                 }
             }
